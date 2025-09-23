@@ -11,7 +11,9 @@ interface Tour {
 export default function TourCard({ tour }: { tour: Tour }) {
   return (
     <div className="tour-card">
-      {tour.image && <img src={tour.image} alt={tour.title} className="tour-img" />}
+      {tour.image && (
+        <img src={tour.image} alt={tour.title} className="tour-img" />
+      )}
       <div className="tour-body">
         <h3 className="tour-title">{tour.title}</h3>
         <p className="tour-description">{tour.description}</p>
