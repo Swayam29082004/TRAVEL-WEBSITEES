@@ -1,4 +1,3 @@
-import React from "react";
 import TourCard from "./TourCard";
 
 interface Tour {
@@ -15,7 +14,7 @@ const TOURS: Tour[] = [
     title: "Rome City Tour",
     country: "Italy",
     description: "Explore ancient Rome with the Colosseum & Vatican.",
-    image: "https://via.placeholder.com/600x350?text=Rome+Tour",
+    image: "/imags/tours/rome.jpg",
     price: "$299",
     category: "cultural",
   },
@@ -23,7 +22,7 @@ const TOURS: Tour[] = [
     title: "Paris City Lights",
     country: "France",
     description: "Romantic Eiffel Tower, Louvre & Seine River Cruise.",
-    image: "https://via.placeholder.com/600x350?text=Paris+Tour",
+    image: "/imags/tours/parais.jpg", // parais.jpg = Paris
     price: "$349",
     category: "romantic",
   },
@@ -31,7 +30,7 @@ const TOURS: Tour[] = [
     title: "Tokyo Cultural Walk",
     country: "Japan",
     description: "Shibuya, Meiji Shrine & local experiences.",
-    image: "https://via.placeholder.com/600x350?text=Tokyo+Tour",
+    image: "/imags/tours/token.jpg", // token.jpg = Tokyo
     price: "$399",
     category: "cultural",
   },
@@ -39,7 +38,7 @@ const TOURS: Tour[] = [
     title: "Safari Adventure",
     country: "Kenya",
     description: "Experience wildlife at Masai Mara with luxury camping.",
-    image: "https://via.placeholder.com/600x350?text=Safari+Kenya",
+    image: "/imags/tours/Safari.jpg",
     price: "$799",
     category: "adventure",
   },
@@ -47,7 +46,7 @@ const TOURS: Tour[] = [
     title: "Bali Beach Escape",
     country: "Indonesia",
     description: "Relax on pristine beaches and explore Balinese temples.",
-    image: "https://via.placeholder.com/600x350?text=Bali+Beach",
+    image: "/imags/tours/Bali.jpg",
     price: "$599",
     category: "romantic",
   },
@@ -55,7 +54,7 @@ const TOURS: Tour[] = [
     title: "New York Highlights",
     country: "USA",
     description: "Times Square, Statue of Liberty, and Broadway shows.",
-    image: "https://via.placeholder.com/600x350?text=NYC+Tour",
+    image: "/imags/tours/Newyork.jpg",
     price: "$449",
     category: "cultural",
   },
@@ -63,7 +62,7 @@ const TOURS: Tour[] = [
     title: "Santorini Sunset Tour",
     country: "Greece",
     description: "Enjoy stunning sunsets, white-washed villages, and wine tasting.",
-    image: "https://via.placeholder.com/600x350?text=Santorini+Tour",
+    image: "/imags/tours/Greece.jpg",
     price: "$549",
     category: "romantic",
   },
@@ -71,7 +70,7 @@ const TOURS: Tour[] = [
     title: "Machu Picchu Hike",
     country: "Peru",
     description: "Trek the Inca Trail to the ancient citadel of Machu Picchu.",
-    image: "https://via.placeholder.com/600x350?text=Machu+Picchu",
+    image: "/imags/tours/Machu.jpg",
     price: "$899",
     category: "adventure",
   },
@@ -79,12 +78,11 @@ const TOURS: Tour[] = [
     title: "Great Wall of China",
     country: "China",
     description: "Walk along the iconic Great Wall and explore Beijing.",
-    image: "https://via.placeholder.com/600x350?text=Great+Wall+China",
+    image: "/imags/tours/Great.jpg",
     price: "$499",
     category: "cultural",
   },
 ];
-
 
 export default function Tours({
   searchTerm,
@@ -104,13 +102,16 @@ export default function Tours({
     return matchesSearch && matchesCategory;
   });
 
+  // ✅ auto-generate categories
+  const categories = ["all", ...new Set(TOURS.map((t) => t.category))];
+
   return (
     <section className="p-6">
       <h2 className="text-2xl font-bold text-center mb-6">Top Destinations</h2>
 
       {/* Category Filter */}
       <div className="flex justify-center mb-6">
-        {["all", "cultural", "romantic"].map((cat) => (
+        {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
@@ -125,6 +126,7 @@ export default function Tours({
         ))}
       </div>
 
+      {/* Tours Grid */}
       <div className="tours-grid">
         {filteredTours.map((tour, idx) => (
           <TourCard key={idx} tour={tour} />

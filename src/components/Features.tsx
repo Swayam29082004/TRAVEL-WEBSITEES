@@ -1,4 +1,3 @@
-import React from "react";
 import { Globe, Shield, Headphones } from "lucide-react";
 
 export default function Features() {
