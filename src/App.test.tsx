@@ -4,6 +4,6 @@ import App from "./App";
 
 test("renders Travel Explorer heading", () => {
   render(<App />);
-  const headingElement = screen.getByText(/Travel Explorer/i);
+  const headingElement = screen.getByRole("heading", { name: /Travel Explorer/i });
   expect(headingElement).toBeInTheDocument();
 });
