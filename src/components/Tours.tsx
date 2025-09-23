@@ -1,4 +1,6 @@
+import { useState, useEffect } from "react";
 import TourCard from "./TourCard";
+import stack from "../lib/contentstack"; // ✅ import Contentstack client
 
 interface Tour {
   title: string;
@@ -14,7 +16,7 @@ const TOURS: Tour[] = [
     title: "Rome City Tour",
     country: "Italy",
     description: "Explore ancient Rome with the Colosseum & Vatican.",
-    image: "/imags/tours/rome.jpg",
+    image: "/images/tours/rome.jpg",
     price: "$299",
     category: "cultural",
   },
@@ -22,7 +24,7 @@ const TOURS: Tour[] = [
     title: "Paris City Lights",
     country: "France",
     description: "Romantic Eiffel Tower, Louvre & Seine River Cruise.",
-    image: "/imags/tours/parais.jpg", // parais.jpg = Paris
+    image: "/images/tours/paris.jpg",
     price: "$349",
     category: "romantic",
   },
@@ -30,7 +32,7 @@ const TOURS: Tour[] = [
     title: "Tokyo Cultural Walk",
     country: "Japan",
     description: "Shibuya, Meiji Shrine & local experiences.",
-    image: "/imags/tours/token.jpg", // token.jpg = Tokyo
+    image: "/images/tours/tokyo.jpg",
     price: "$399",
     category: "cultural",
   },
@@ -38,7 +40,7 @@ const TOURS: Tour[] = [
     title: "Safari Adventure",
     country: "Kenya",
     description: "Experience wildlife at Masai Mara with luxury camping.",
-    image: "/imags/tours/Safari.jpg",
+    image: "/images/tours/safari.jpg",
     price: "$799",
     category: "adventure",
   },
@@ -46,7 +48,7 @@ const TOURS: Tour[] = [
     title: "Bali Beach Escape",
     country: "Indonesia",
     description: "Relax on pristine beaches and explore Balinese temples.",
-    image: "/imags/tours/Bali.jpg",
+    image: "/images/tours/bali.jpg",
     price: "$599",
     category: "romantic",
   },
@@ -54,7 +56,7 @@ const TOURS: Tour[] = [
     title: "New York Highlights",
     country: "USA",
     description: "Times Square, Statue of Liberty, and Broadway shows.",
-    image: "/imags/tours/Newyork.jpg",
+    image: "/images/tours/newyork.jpg",
     price: "$449",
     category: "cultural",
   },
@@ -62,7 +64,7 @@ const TOURS: Tour[] = [
     title: "Santorini Sunset Tour",
     country: "Greece",
     description: "Enjoy stunning sunsets, white-washed villages, and wine tasting.",
-    image: "/imags/tours/Greece.jpg",
+    image: "/images/tours/greece.jpg",
     price: "$549",
     category: "romantic",
   },
@@ -70,7 +72,7 @@ const TOURS: Tour[] = [
     title: "Machu Picchu Hike",
     country: "Peru",
     description: "Trek the Inca Trail to the ancient citadel of Machu Picchu.",
-    image: "/imags/tours/Machu.jpg",
+    image: "/images/tours/machu.jpg",
     price: "$899",
     category: "adventure",
   },
@@ -78,7 +80,7 @@ const TOURS: Tour[] = [
     title: "Great Wall of China",
     country: "China",
     description: "Walk along the iconic Great Wall and explore Beijing.",
-    image: "/imags/tours/Great.jpg",
+    image: "/images/tours/greatwall.jpg",
     price: "$499",
     category: "cultural",
   },
@@ -93,7 +95,41 @@ export default function Tours({
   selectedCategory: string;
   setSelectedCategory: (val: string) => void;
 }) {
-  const filteredTours = TOURS.filter((tour) => {
+  const [tours, setTours] = useState<Tour[]>(TOURS); // ✅ use fallback tours
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTours = async () => {
+      try {
+        const Query = stack.ContentType("tour").Query();
+        const result = await Query.toJSON().find();
+        const entries = result[0] || [];
+
+        if (entries.length > 0) {
+          const mappedTours: Tour[] = entries.map((entry: any) => ({
+            title: entry.title,
+            country: entry.country,
+            description: entry.description,
+            image: entry.image?.url || "",
+            price: entry.price,
+            category: entry.category,
+          }));
+
+          setTours(mappedTours);
+        } else {
+          console.warn("No tours found in Contentstack, using fallback data.");
+        }
+      } catch (error) {
+        console.error("Error fetching tours from Contentstack:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTours();
+  }, []);
+
+  const filteredTours = tours.filter((tour) => {
     const matchesSearch =
       tour.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       tour.country.toLowerCase().includes(searchTerm.toLowerCase());
@@ -102,8 +138,11 @@ export default function Tours({
     return matchesSearch && matchesCategory;
   });
 
-  // ✅ auto-generate categories
-  const categories = ["all", ...new Set(TOURS.map((t) => t.category))];
+  const categories = ["all", ...new Set(tours.map((t) => t.category))];
+
+  if (loading) {
+    return <p className="text-center">Loading tours...</p>;
+  }
 
   return (
     <section className="p-6">
@@ -127,7 +166,7 @@ export default function Tours({
       </div>
 
       {/* Tours Grid */}
-      <div className="tours-grid">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {filteredTours.map((tour, idx) => (
           <TourCard key={idx} tour={tour} />
         ))}
