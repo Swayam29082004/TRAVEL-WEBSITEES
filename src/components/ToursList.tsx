@@ -1,40 +1,22 @@
-import React, { useEffect, useState } from "react";
-import stack from "../contentstackClient";
+import React from "react";
+import TourCard from "./TourCard";
 
 interface Tour {
   title: string;
-  country: string;
   description: string;
+  country: string;
+  image?: string;
 }
 
-export default function ToursList({ country }: { country: string }) {
-  const [tours, setTours] = useState<Tour[]>([]);
-
-  useEffect(() => {
-    const fetchTours = async () => {
-      const Query = stack.ContentType("tours").Query();
-      Query.where("country", country)
-        .toJSON()
-        .find()
-        .then(([entries]) => {
-          setTours(entries as Tour[]);
-        });
-    };
-    fetchTours();
-  }, [country]);
-
+export default function ToursList({ tours }: { tours: Tour[] }) {
   return (
-    <div>
-      <h2 className="text-xl font-bold">Tours in {country}</h2>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       {tours.length > 0 ? (
-        tours.map((tour, idx) => (
-          <div key={idx} className="p-2 border-b">
-            <h3 className="font-semibold">{tour.title}</h3>
-            <p>{tour.description}</p>
-          </div>
-        ))
+        tours.map((tour, idx) => <TourCard key={idx} tour={tour} />)
       ) : (
-        <p>No tours found.</p>
+        <p className="col-span-full text-gray-500 text-center">
+          No tours found for this destination.
+        </p>
       )}
     </div>
   );
