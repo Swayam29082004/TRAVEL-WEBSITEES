@@ -1,43 +1,112 @@
+/* General */
 .App {
-  text-align: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background-color: #f9fafb;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Hero Section */
+.hero {
+  position: relative;
+  background: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e")
+    center/cover no-repeat;
+  height: 300px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-.App {
+.hero-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 30px;
+  border-radius: 8px;
   text-align: center;
-  max-width: 900px;
-  margin: 0 auto;
+}
+.hero-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #fff;
+}
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: #ddd;
+  margin-top: 10px;
+}
+
+/* Tours Grid */
+.tours-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Tour Card */
+.tour-card {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+.tour-card:hover {
+  transform: translateY(-5px);
+}
+.tour-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+.tour-body {
+  padding: 15px;
+}
+.tour-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.tour-description {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+.tour-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.tour-country {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #777;
+}
+.tour-price {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #2c5282;
+}
+.tour-button {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.tour-button:hover {
+  background: #1e40af;
+}
+
+/* Footer */
+.footer {
+  background: #111827;
+  color: #d1d5db;
+  padding: 20px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.no-tours {
+  text-align: center;
+  color: #666;
 }
