@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import TourCard from "./TourCard";
-import stack from "../lib/contentstack"; // ✅ import Contentstack client
+import stack from "../contentstackClient";
 
 interface Tour {
   title: string;
