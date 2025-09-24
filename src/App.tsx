@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-
+//travel website 
 import Hero from "./components/Hero";
 import Features from "./components/Features";
 import Tours from "./components/Tours";
