@@ -9,11 +9,9 @@ import Newsletter from "./components/Newsletter";
 import Footer from "./components/Footer";
 import { ChatWidget } from "@swayam29082004/chat-sdk";
 import "@swayam29082004/chat-sdk/dist/style.css";
-
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-
   return (
     <div className="App">
       <Hero searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
@@ -41,7 +39,7 @@ function App() {
           <ChatWidget
             agentId="68d329e7b13080decd6824d5"
             apiUrl="http://localhost:3000/api/rag-query"
-          />~
+          />
         </div>
       </section>
 
@@ -51,5 +49,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
